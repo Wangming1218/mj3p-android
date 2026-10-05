@@ -1,0 +1,6 @@
+{
+  "appId": "com.wangming.mj3p",
+  "appName": "麻将三人",
+  "webDir": "dist",
+  "bundledWebRuntime": false
+}
