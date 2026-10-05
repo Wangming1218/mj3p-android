@@ -1,29 +1,60 @@
 {
-  "name": "mj3p-android",
-  "private": true,
+  "name": "mj3p-desktop",
   "version": "0.1.0",
-  "type": "module",
+  "private": true,
+  "main": "electron/main.js",
   "scripts": {
     "dev": "vite --host 0.0.0.0",
     "build": "vite build",
     "preview": "vite preview --host 0.0.0.0",
-    "cap:sync": "npx cap sync android",
-    "cap:open": "npx cap open android",
-    "cap:add": "npx cap add android"
+    "electron": "electron .",
+    "electron:dev": "concurrently \"npm run dev\" \"wait-on http://localhost:5173 && electron .\"",
+    "electron:pack": "npm run build && electron-builder --dir",
+    "electron:build": "npm run build && electron-builder --win",
+    "dist:win": "npm run build && electron-builder --win nsis portable"
   },
   "dependencies": {
-    "@capacitor/android": "^6.1.2",
-    "@capacitor/cli": "^6.1.2",
-    "@capacitor/core": "^6.1.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "socket.io-client": "^4.8.0"
   },
   "devDependencies": {
+    "@capacitor/android": "^6.1.2",
+    "@capacitor/cli": "^6.1.2",
+    "@capacitor/core": "^6.1.2",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@vitejs/plugin-react": "^4.3.3",
+    "concurrently": "^9.2.0",
+    "cross-env": "^7.0.0",
+    "electron": "^31.7.4",
+    "electron-builder": "^24.13.0",
     "typescript": "^5.5.4",
-    "vite": "^5.4.10"
+    "vite": "^5.4.10",
+    "wait-on": "^8.0.2"
+  },
+  "build": {
+    "appId": "com.wangming.mj3p",
+    "productName": "麻将三人",
+    "directories": {
+      "output": "out"
+    },
+    "files": [
+      "dist/**/*",
+      "electron/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    }
   }
 }
